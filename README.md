@@ -6,7 +6,7 @@
 
 The `strand` module  provides classes for handling the three most common strand
 forms -- positive (`+`), negative (`-`), and unknown (`.`) -- as both string
-integer types.
+and integer types.
 
 # Installation:
 
