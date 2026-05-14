@@ -1,18 +1,16 @@
 
-
 _STRAND = {}
 
 class BaseStrand(object):
-    @property
-    def int(self):
-        return self._int
-
-    @property
-    def str(self):
-        return self._str
+    __slots__ = ()
+    def __bool__(self):
+        return bool(self.__class__.int)
+    
+    def __int__(self):
+        return self.__class__.int
     
     def __str__(self):
-        return self.str
+        return self.__class__.str
 
     def __repr__(self):
         return "%s('%s')" % (self.__class__.__name__, self.str)
@@ -41,38 +39,51 @@ class BaseStrand(object):
         else:
             return '{1:{0}}'.format(spec, self.int)
 
-    def __reversed__(self):
+    def __neg__(self):
         return self
 
-    
-class PositiveStrand(BaseStrand):
-    _str = '+'
-    _int = +1
-    def __init__(self):
-        self._int = PositiveStrand._int
-        self._str = PositiveStrand._str
+    def __pos__(self):
+        return self
 
     def __reversed__(self):
-        return _STRAND[NegativeStrand._str]
+        return self.__neg__()
+    
+    def ispositive(self):
+        return self.int > 0
+
+    def isnegative(self):
+        return self.int < 0
+
+    def isunknown(self):
+        return not (self.ispositive() or self.isnegative())
+    
+        
+class PositiveStrand(BaseStrand):
+    __slots__ = ()
+    str = '+'
+    int = +1
+    def __neg__(self):
+        return _STRAND[NegativeStrand.str]
+
+    def __pos__(self):
+        return self
         
         
 class NegativeStrand(BaseStrand):
-    _str = '-'
-    _int = -1
-    def __init__(self):
-        self._int = NegativeStrand._int
-        self._str = NegativeStrand._str
+    __slots__ = ()
+    str = '-'
+    int = -1
+    def __neg__(self):
+        return _STRAND[PositiveStrand.str]
 
-    def __reversed__(self):
-        return _STRAND[PositiveStrand._str]
-    
+    def __pos__(self):
+        return self
+
     
 class UnknownStrand(BaseStrand):
-    _str = '.'
-    _int = 0
-    def __init__(self):
-        self._int = UnknownStrand._int
-        self._str = UnknownStrand._str
+    __slots__ = ()
+    str = '.'
+    int = 0
     
     
 def register(newclass):
