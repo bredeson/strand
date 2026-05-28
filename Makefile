@@ -1,6 +1,6 @@
 
 PREFIX     := /usr/local
-INSTALL_PATH ?= $(PREFIX)/lib/$(PYTHON_VER)/site-packages
+INSTALL_PATH ?= $(PREFIX)/lib/$(PYTHON_VERSION)/site-packages
 
 CURR_DIR   = $(shell pwd)
 
