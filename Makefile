@@ -45,7 +45,7 @@ BUILD_TARGETS = $(LIB_PATH)/$(LIBRARY).py
 .SUFFIXES:
 .SUFFIXES: .py
 
-.PHONY: all test install activate clean
+.PHONY: all test install-strand install activate clean
 
 all: build activate
 
@@ -65,7 +65,8 @@ activate:
 	@$(ECHO) 'export PYTHONPATH="$(INSTALL_PATH):$$PYTHONPATH";' >activate
 	@$(ECHO) '#setenv PYTHONPATH "$(INSTALL_PATH):$$PYTHONPATH";' >>activate
 
-install: all test
+install: install-strand
+install-strand: all test
 	$(INSTALL_DIR) $(INSTALL_PATH)
 	$(INSTALL_LIB) $(BUILD_TARGETS) $(INSTALL_PATH)
 
