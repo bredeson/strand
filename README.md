@@ -44,11 +44,16 @@ In the Python REPL:
 True
 >>> strand.int
 1
+
 >>> strand = reversed(strand)
 >>> strand.isnegative()
 True
 >>> strand.int
 -1
->>> print(strand)  # prints "-"
-```
 
+>>> strand
+NegativeStrand('-')
+>>> print(strand)  # prints "-"
+>>> strand * strand
+PositiveStrand('+')
+```
