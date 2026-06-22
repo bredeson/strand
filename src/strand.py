@@ -1,17 +1,20 @@
 
+import math as _math
+
+
 _STRAND = {}
 
 
 class BaseStrand(object):
     __slots__ = ()
     def __bool__(self):
-        return bool(self.__class__.int)
+        return bool(self.int)
     
     def __int__(self):
-        return self.__class__.int
+        return self.int
 
     def __str__(self):
-        return self.__class__.str
+        return self.str
 
     def __repr__(self):
         return "%s('%s')" % (self.__class__.__name__, self.str)
@@ -49,7 +52,7 @@ class BaseStrand(object):
     def __mul__(self, other):
         if not isinstance(other, BaseStrand):
             other = Strand(other)
-        return _STRAND[self.int * other.int]
+        return Strand(self.int * other.int)
     
     def __format__(self, spec):
         if spec and spec.endswith(('d','n')):
@@ -110,12 +113,16 @@ def register(newclass):
     if not issubclass(newclass, BaseStrand):
         raise TypeError("Strand class must inherit from BaseStrand")
     instance = newclass()
-    if instance.str in _STRAND:
-        raise NameError("'%s' class exists" % instance.str)
-    _STRAND[instance.str] = instance
-    if instance.int in _STRAND:
-        raise NameError("'%s' class exists" % instance.str)
-    _STRAND[instance.int] = instance
+    instance_str = instance.str
+    instance_int = instance.int
+    if _math.isnan(instance_int):
+        instance_int = _math.nan
+    if instance_str in _STRAND:
+        raise NameError("'%s' class exists" % instance_str)
+    if instance_int in _STRAND:
+        raise NameError("'%s' class exists" % instance_str)
+    _STRAND[instance_str] = instance
+    _STRAND[instance_int] = instance
 
     
 def Strand(strand):
@@ -123,7 +130,10 @@ def Strand(strand):
         if isinstance(strand, BaseStrand):
             return _STRAND[strand.str]
         elif isinstance(strand, (int, float)):
-            _strand = (strand // abs(strand)) if strand else 0
+            if _math.isnan(strand):
+                _strand = _math.nan
+            else:
+                _strand = (strand // abs(strand)) if strand else 0
             return _STRAND[_strand]
         elif isinstance(strand, str):
             return _STRAND[strand]
