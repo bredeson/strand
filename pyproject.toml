@@ -1,0 +1,17 @@
+[project]
+name = 'strand'
+version = '1.0-9'
+authors = [
+    {name = "Jessen V. Bredeson", email = "jessenbredeson@berkeley.edu"},
+]
+readme = "README.md"
+requires-python = ">=3.5"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ['src']
+include = ["strand"]
+namespaces = false 
