@@ -1,4 +1,7 @@
 
+# python -m site --user-base
+# python -m site --user-site
+
 PREFIX     := /usr/local
 INSTALL_PATH ?= $(PREFIX)/lib/$(PYTHON_VERSION)/site-packages
 
@@ -56,10 +59,11 @@ $(LIB_PATH)/%: $(SRC_PATH)/% $(LIB_PATH)
 	$(CAT) LICENSE $< >$@
 
 build: $(LIB_PATH) $(BUILD_TARGETS)
+# python -m build --outdir build
 
 check: test
 test: $(BUILD_TARGETS)
-	PYTHONPATH="$(LIB_PATH)" $(PYTHON) -m unittest discover test -v
+	PYTHONPATH="$(LIB_PATH)" $(PYTHON) -m unittest discover --verbose --failfast --start-directory test
 
 activate:
 	@$(ECHO) 'export PYTHONPATH="$(INSTALL_PATH):$$PYTHONPATH";' >activate
@@ -69,6 +73,7 @@ install: install-strand
 install-strand: all test
 	$(INSTALL_DIR) $(INSTALL_PATH)
 	$(INSTALL_LIB) $(BUILD_TARGETS) $(INSTALL_PATH)
+# pip install --prefix ${PREFIX) dist/strand-1.0.post9.tar.gz
 
 clean:
 	-$(RM_R) $(BUILD_PATH)
