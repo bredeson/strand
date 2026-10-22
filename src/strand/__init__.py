@@ -17,7 +17,7 @@ class BaseStrand(object):
         return self.str
 
     def __repr__(self):
-        return "%s('%s')" % (self.__class__.__name__, self.str)
+        return '{0}({1!r})'.format(self.__class__.__name__, self.str)
     
     def __eq__(self, other):
         if not isinstance(other, BaseStrand):
@@ -118,9 +118,9 @@ def register(newclass):
     if _math.isnan(instance_int):
         instance_int = _math.nan
     if instance_str in _STRAND:
-        raise NameError("'%s' class exists" % instance_str)
+        raise NameError('{0!r} class exists'.format(instance_str))
     if instance_int in _STRAND:
-        raise NameError("'%s' class exists" % instance_str)
+        raise NameError('{0!r} class exists'.format(instance_str))
     _STRAND[instance_str] = instance
     _STRAND[instance_int] = instance
 
@@ -138,10 +138,10 @@ def Strand(strand):
         elif isinstance(strand, str):
             return _STRAND[strand]
         else:
-            raise TypeError("Unrecognized strand type (%s): '%s'" % (
-                type(strand), str(strand)))
+            raise TypeError('Unrecognized strand type ({0}): {1!r}'.format(
+                type(strand), strand))
     except KeyError:
-        raise ValueError("Unrecognized strand value: '%s'" % (str(strand)))
+        raise ValueError('Unrecognized strand value: {0!r}'.format(strand))
             
 
 register(PositiveStrand)
