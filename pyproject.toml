@@ -1,5 +1,5 @@
 [build-system]
-requires = ['setuptools>=64','setuptools-scm>=8']
+requires = ['setuptools>=80','setuptools-scm[simple]>=9.2']
 build-backend = 'setuptools.build_meta'
 
 [project]
@@ -18,7 +18,7 @@ classifiers = [
   'Topic :: Software Development :: Libraries :: Python Modules'
 ]
 readme = {file = 'README.md', content-type = 'GFM'}
-license = {file = 'LICENSE'}
+license-files = ['LICENSE']
 
 [project.urls]
 GitHub = 'https://github.com/bredeson/strand'
@@ -26,3 +26,4 @@ Repository = 'https://github.com/bredeson/strand.git'
 
 [tool.setuptools.packages.find]
 where = ['src']
+
